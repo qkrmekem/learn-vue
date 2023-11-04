@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <p>{{number}}</p>
+        <p>{{doubleNum}}</p>
+
+        <p v-bind:id="uuid" v-bind:class="name">{{number}}</p>
+        <!-- 프롭스의 true/false에 따라 태그를 출력 -->
+        <div v-if="loading">
+            Loading...
+        </div>
+        <div v-else>
+            test user has been logged in
+        </div>
+        <!-- v-show는 프롭스가 false일 때 css속성을 이용해 보이지 않게만 설정 -->
+        <div v-show="loading">
+            Loading...
+        </div>
+
+        <!-- TODO: 인풋 박스를 만들고 입력된 값을 p태그에 출력해보세요 -->
+        <input type="text" v-model="message">
+        <p>{{message}}</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                number: 10,
+                uuid: 'abc1234',
+                name: 'text-blue',
+                loading: true,
+                message: ''
+            },
+            computed: {
+                doubleNum: function(){
+                    return this.number  *2;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
