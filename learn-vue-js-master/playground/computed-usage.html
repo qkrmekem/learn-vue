@@ -14,6 +14,7 @@
     <div id="app">
         <!-- <p v-bind:class="{ 사용할 속성: 조건}"></p> -->
         <!-- 조건이 참인지 거짓인지에 따라 속성을 사용할지 결정 -->
+        <!-- 여기서는 errorTextColor라는 함수를 이용해 값을 설정-->
         <p v-bind:class="errorTextColor">Hello</p>
     </div>
 
@@ -27,6 +28,8 @@
             },
             computed: {
                 errorTextColor: function(){
+                    // isError가 참이라면 클래스에 warning을 추가
+                    // 거짓이라면 null로 아무것도 추가하지 않음
                     return this.isError ? 'warning': null;
                 }
             }

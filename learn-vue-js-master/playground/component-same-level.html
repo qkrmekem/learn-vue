@@ -36,6 +36,11 @@
                 num: 0
             },
             methods:{
+                // 자식pass() 와 부모deliverNum()을 매칭
+                // pass와 함께 10이라는 값이 deliverNum으로 넘어가고
+                // deliverNum에서는 data의 num에 10을 저장
+                // 부모num과 자식propsdata가 바인딩되었으므로
+                // 같은 레벨의 컴포넌트끼리 값을 주고 받을 수 있게 됨
                 deliverNum: function(value){
                     this.num = value;
                 }
