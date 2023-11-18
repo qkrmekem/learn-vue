@@ -1,58 +1,33 @@
 <template>
   <div>
-    <ul>
-      <li v-for="(todoItem, index) in todoItems" v-bind:key="todoItem.item" class="shadow">
+    <!-- 트랜지션 추가 -->
+    <!-- https://v2.vuejs.org/v2/guide/transitions.html#Transition-Classes -->
+    <transition-group name="list" tag="ul">
+      <li v-for="(todoItem, index) in this.$store.state.todoItems" v-bind:key="todoItem.item" class="shadow">
         <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" 
-        v-on:click="toggleComplete(todoItem,index)"></i>
+        v-on:click="toggleComplete(todoItem)"></i>
         <span v-bind:class="{textCompleted: todoItem.completed}">{{todoItem.item}}</span>
         
         <span class="removeBtn" v-on:click="removeTodo(todoItem, index)">
           <i class="fas fa-trash-alt"></i>
         </span>
       </li>
-    </ul>
+    </transition-group>
   </div>
 </template>
 
 <script>
 export default {
-  data: function(){
-    return {
-      todoItems: []
-    }
-  },
+  props: ['propsData'],
   methods: {
-    removeTodo: function(todoItem, index){
-      console.log(todoItem, index);
-      localStorage.removeItem(todoItem);
-      // index위치부터 1개의 요소를 제거
-      // splice는 요소를 제거하고 배열에 반영
-      // slice는 저장하지 않음
-      this.todoItems.splice(index,1);
+    removeTodo(todoItem, index){
+      this.$emit('removeItem', todoItem, index);
     },
-    toggleComplete: function(todoItem, index){
-      console.log(todoItem,index);
-      todoItem.completed = !todoItem.completed;
-      // 로컬스토리지 갱신
-      localStorage.removeItem(todoItem.item);
-      localStorage.setItem(todoItem.item,JSON.stringify(todoItem.item));
-    }
-  },
-  // 라이프사이클 훅
-  // 컴포넌트가 생성되고 소멸되는 사이의 각 단계에서
-  // 실행되는 함수를 뜻함(총 8가지의 상태가 있음)
-  created: function(){
-    if(localStorage.length > 0){
-      for(let i = 0; i < localStorage.length; i++){
-        if(localStorage.key(i) !== 'loglevel:webpack-dev-server'){
-          // 앞서 데이터를 로컬스토리지에 저장할 때 string형태로 저장했기 때문에
-          // JSON.parse로 다시 object타입으로 바꿔야함
-          console.log(JSON.parse(localStorage.getItem(localStorage.key(i))));
-          this.todoItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
-
-          // this.todoItems.push(localStorage.key(i));
-        }
-      }
+    toggleComplete(todoItem){
+      // 여기서 toggleItem과
+      // 부모 컴포넌트에서 v-on:toggleItem
+      // 으로 맞춰야 함
+      this.$emit('toggleItem', todoItem);
     }
   }
 }
@@ -91,5 +66,16 @@ li{
 .removeBtn{
   margin-left: auto;
   color: #de4343;
+}
+
+/* 리스트 아이템 트랜지션 효과 */
+
+.list-enter-active, .list-leave-active {
+  transition: all 1s;
+}
+/* .list-enter -> .list-enter-from으로 수정하니 적용이 됨 */
+.list-enter-from, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
 }
 </style>

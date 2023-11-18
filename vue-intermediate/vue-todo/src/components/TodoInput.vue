@@ -5,37 +5,59 @@
     <span class="addContainer" v-on:click="addTodo">
         <i class="fas fa-plus addBtn" ></i>
     </span>
+
+    <AlertModal v-if="showModal" @close="showModal = false">
+        <!--
+      you can use custom content here to overwrite!!!
+      default content
+    -->
+        <template v-slot:header>
+            경고!!!
+            <i class="closeModalBtn fas fa-times" @click="showModal = false"></i>
+        </template>
+
+        <template v-slot:body>
+            글을 입력해주세요
+        </template>
+
+        <template v-slot:footer>
+            copyright : qkrmekem
+        </template>
+    </AlertModal>
   </div>
 </template>
 
 <script>
+import AlertModal from './common/AlertModal.vue'
+
+
 export default {
+    
+
     // v-model : 뷰 인스턴스와 input박스의 값을 동적으로 매핑
-    data: function(){
+    data(){
         return{
-            newTodoItem: ""
+            newTodoItem: "",
+            showModal: false
         }
     },
     methods: {
-        addTodo: function(){
+        addTodo(){
             if(this.newTodoItem !== ''){
-                let obj ={
-                    completed: false,
-                    item: this.newTodoItem
-                };
-                // 저장하는 로직
-                // obj의 값을 string값으로 담음
-                // js의 object가 들어가기 때문에 어떤 값이 들어있는지 확인할 수 없음
-                // localStorage.setItem(this.newTodoItem,obj);
-                // obj가 string형태로 저장됨 
-                localStorage.setItem(this.newTodoItem,JSON.stringify(obj));
+                // $emit(부모 컴포넌트에서 실행할 함수 이름, 인자)
+                this.$emit('addTodoItem', this.newTodoItem);
                 this.clearInput();
+            }else{
+                this.showModal = !this.showModal;
             }
             
         },
-        clearInput: function(){
+        clearInput(){
             this.newTodoItem = '';
         }
+    },
+    components: {
+       AlertModal
     }
 }
 </script>
@@ -72,5 +94,8 @@ input:focus{
 .addBtn{
     color: white;
     vertical-align: middle;
+}
+.closeModalBtn{
+    color: #42b983;
 }
 </style>
