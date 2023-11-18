@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <TodoHeader></TodoHeader>
-    <TodoInput v-on:addTodoItem="addOneItem"></TodoInput>
+    <TodoInput></TodoInput>
     <TodoList v-bind:propsData="todoItems" v-on:removeItem="removeOneItem" v-on:toggleItem="toggleOneItem"></TodoList>
     <TodoFooter v-on:clearAll="clearAllItem"></TodoFooter>
   </div>
@@ -14,22 +14,11 @@ import TodoList from './components/TodoList.vue'
 import TodoFooter from './components/TodoFooter.vue'
 
 export default {
-  // 컨테이너 컴포넌트
-  // 데이터 관리나 조작이 이뤄짐
-
-  // 프레젠테이셔널 컴포넌트
-  // ui적으로 표현만 하고 특정 동작은
-  // 이벤트를 상위 컴포넌트로 올려 작동하는 방식
-  // 프레젠테이셔널 컴포넌트에서는 ui등 데이터를 띄워주는 역할만 하고
-  // 데이터 조작 등의 을 수행한다.
-
   // ES5
   // data : function(){
-
   // ES6
   data(){
     return {
-      headerText: 'TODO it!',
       todoItems: []
     }
   },
@@ -37,27 +26,27 @@ export default {
     // ES5
     // addOneItem: function(todoItem){
 
-    // ES6
-    addOneItem(todoItem){
-      const obj ={
-          completed: false,
-          item: todoItem
-      };
-      // 저장하는 로직
-      // obj의 값을 string값으로 담음
-      // js의 object가 들어가기 때문에 어떤 값이 들어있는지 확인할 수 없음
-      // localStorage.setItem(this.newTodoItem,obj);
-      // obj가 string형태로 저장됨 
-      localStorage.setItem(todoItem,JSON.stringify(obj));
-      this.todoItems.push(obj);
-    },
-    removeOneItem(todoItem, index){
-      localStorage.removeItem(todoItem.item);
-      // index위치부터 1개의 요소를 제거
-      // splice는 요소를 제거하고 배열에 반영
-      // slice는 저장하지 않음
-      this.todoItems.splice(index,1);
-    },
+    // // ES6
+    // addOneItem(todoItem){
+    //   const obj ={
+    //       completed: false,
+    //       item: todoItem
+    //   };
+    //   // 저장하는 로직
+    //   // obj의 값을 string값으로 담음
+    //   // js의 object가 들어가기 때문에 어떤 값이 들어있는지 확인할 수 없음
+    //   // localStorage.setItem(this.newTodoItem,obj);
+    //   // obj가 string형태로 저장됨 
+    //   localStorage.setItem(todoItem,JSON.stringify(obj));
+    //   this.todoItems.push(obj);
+    // },
+    // removeOneItem(todoItem, index){
+    //   localStorage.removeItem(todoItem.item);
+    //   // index위치부터 1개의 요소를 제거
+    //   // splice는 요소를 제거하고 배열에 반영
+    //   // slice는 저장하지 않음
+    //   this.todoItems.splice(index,1);
+    // },
     toggleOneItem(todoItem){
       todoItem.completed = !todoItem.completed;
       // 로컬스토리지 갱신

@@ -17,11 +17,15 @@
 </template>
 
 <script>
+
+ 
 export default {
-  props: ['propsData'],
+  // props: ['propsData'],
   methods: {
-    removeTodo(todoItem, index){
-      this.$emit('removeItem', todoItem, index);
+    removeTodo(state, todoItem, index){
+      // console.log(JSON.stringify(this.$store.state));
+      // this.$emit('removeItem', todoItem, index);
+      this.$store.commit('removeItem', {todoItem, index});
     },
     toggleComplete(todoItem){
       // 여기서 toggleItem과
