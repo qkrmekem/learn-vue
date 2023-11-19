@@ -5,7 +5,7 @@
     <transition-group name="list" tag="ul">
       <li v-for="(todoItem, index) in this.$store.state.todoItems" v-bind:key="todoItem.item" class="shadow">
         <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" 
-        v-on:click="toggleComplete(todoItem)"></i>
+        v-on:click="toggleComplete(todoItem, index)"></i>
         <span v-bind:class="{textCompleted: todoItem.completed}">{{todoItem.item}}</span>
         
         <span class="removeBtn" v-on:click="removeTodo(todoItem, index)">
@@ -24,14 +24,15 @@ export default {
   methods: {
     removeTodo(state, todoItem, index){
       // console.log(JSON.stringify(this.$store.state));
+      // 여기서 removeItem과
+      // 부모 컴포넌트에서 v-on:toggleItem
+      // 으로 맞춰야 함
       // this.$emit('removeItem', todoItem, index);
       this.$store.commit('removeItem', {todoItem, index});
     },
-    toggleComplete(todoItem){
-      // 여기서 toggleItem과
-      // 부모 컴포넌트에서 v-on:toggleItem
-      // 으로 맞춰야 함
-      this.$emit('toggleItem', todoItem);
+    toggleComplete(todoItem, index){
+      // this.$emit('toggleItem', todoItem);
+      this.$store.commit('toggleItem', {todoItem, index});
     }
   }
 }

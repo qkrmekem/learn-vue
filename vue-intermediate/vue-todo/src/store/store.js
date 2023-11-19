@@ -43,6 +43,17 @@ export default createStore({
             // splice는 요소를 제거하고 배열에 반영
             // slice는 저장하지 않음
             state.todoItems.splice(payload.index,1);   
+        },
+        toggleItem(state, payload){
+            state.todoItems[payload.index].completed = !state.todoItems[payload.index].completed;
+
+            localStorage.removeItem(payload.todoItem.item);
+            localStorage.setItem(payload.todoItem.item, JSON.stringify(payload.todoItem));
+        },
+        clearAll(state){
+            localStorage.clear();
+            state.todoItems = [];
         }
+
     }
 });
