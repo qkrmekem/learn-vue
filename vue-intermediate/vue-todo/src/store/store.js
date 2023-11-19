@@ -22,6 +22,11 @@ export default createStore({
     state: {
         todoItems: storage.fetch()
     },
+    getters: {
+        storedTodoItems(state){
+            return state.todoItems;
+        }
+    },
     mutations: {
         // ES6
         addOneItem(state, todoItem){

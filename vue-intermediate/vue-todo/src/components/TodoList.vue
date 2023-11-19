@@ -3,12 +3,12 @@
     <!-- 트랜지션 추가 -->
     <!-- https://v2.vuejs.org/v2/guide/transitions.html#Transition-Classes -->
     <transition-group name="list" tag="ul">
-      <li v-for="(todoItem, index) in this.$store.state.todoItems" v-bind:key="todoItem.item" class="shadow">
+      <li v-for="(todoItem, index) in this.storedTodoItems " v-bind:key="todoItem.item" class="shadow">
         <i class="checkBtn fas fa-check" v-bind:class="{checkBtnCompleted: todoItem.completed}" 
-        v-on:click="toggleComplete(todoItem, index)"></i>
+        v-on:click="toggleComplete({todoItem, index})"></i>
         <span v-bind:class="{textCompleted: todoItem.completed}">{{todoItem.item}}</span>
         
-        <span class="removeBtn" v-on:click="removeTodo(todoItem, index)">
+        <span class="removeBtn" v-on:click="removeTodo({todoItem, index})">
           <i class="fas fa-trash-alt"></i>
         </span>
       </li>
@@ -17,23 +17,33 @@
 </template>
 
 <script>
-
+import {mapGetters, mapMutations} from 'vuex'
  
 export default {
   // props: ['propsData'],
   methods: {
-    removeTodo(state, todoItem, index){
+    ...mapMutations({
+      // 인자를 작성 안해도 자동으로 인자를 넘김
+      // this.$store.commit('removeItem', {todoItem, index}); 이거랑 같음
+      removeTodo: 'removeItem',
+      toggleComplete: 'toggleItem'
+    })
+    /*removeTodo(todoItem, index){
       // console.log(JSON.stringify(this.$store.state));
-      // 여기서 removeItem과
-      // 부모 컴포넌트에서 v-on:toggleItem
-      // 으로 맞춰야 함
-      // this.$emit('removeItem', todoItem, index);
+      // 여기서 removeItem과 부모 컴포넌트에서 v-on:toggleItem으로 맞춰야 함 
+      this.$emit('removeItem', todoItem, index);
       this.$store.commit('removeItem', {todoItem, index});
     },
     toggleComplete(todoItem, index){
       // this.$emit('toggleItem', todoItem);
       this.$store.commit('toggleItem', {todoItem, index});
-    }
+    }*/
+  },
+  computed: {
+    // todoItems(){
+    //   return this.$store.getters.storedTodoItems;
+    // }
+    ...mapGetters(['storedTodoItems'])
   }
 }
 </script>

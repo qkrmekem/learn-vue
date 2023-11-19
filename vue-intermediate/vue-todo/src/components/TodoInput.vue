@@ -29,6 +29,7 @@
 
 <script>
 import AlertModal from './common/AlertModal.vue'
+import {mapMutations} from 'vuex'
 
 
 export default {
@@ -42,16 +43,23 @@ export default {
         }
     },
     methods: {
+        ...mapMutations({
+            addTodoItem: 'addOneItem'
+        }),
         addTodo(){
             if(this.newTodoItem !== ''){
                 // $emit(부모 컴포넌트에서 실행할 함수 이름, 인자)
-                // this.$emit('addTodoItem', this.newTodoItem);
-                this.$store.commit('addOneItem', this.newTodoItem);
+                // this.$emit('addOneItem', this.newTodoItem);
+                // this.$store.commit('addOneItem', this.newTodoItem);
+                this.addTodoHelper(this.newTodoItem);
                 this.clearInput();
             }else{
                 this.showModal = !this.showModal;
             }
             
+        },
+        addTodoHelper(todo){
+            this.addTodoItem(todo);
         },
         clearInput(){
             this.newTodoItem = '';
